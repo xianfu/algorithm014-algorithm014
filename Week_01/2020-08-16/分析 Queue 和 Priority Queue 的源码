@@ -1,0 +1,42 @@
+### 分析 Queue 源码
+```textmate
+    首先，Queue 是自JDK 1.5开始出现的，他是一个接口 Interface，继承自 Collection。
+    常见子接口有Deque,BlockingQueue,BlockingDeque，还有TransferQueue。
+    常见的实现类有 LinkedList，PriorityQueue，DelayQueue，ArrayDeque，还有十多种其他的实现。
+    
+    队列，顾名思义，先进先出（first in first out, FIFO）,    
+
+    Queue提供的方法有6个，分别为:
+    add,remove,element;   (操作失败 抛   异常) 
+    offer,poll,peek;      (操作失败 不抛 异常，返回一个特殊值)
+    
+    add 和 offer 功能为添加元素
+    remove 和 poll 是删除元素
+    element 和 peek 是访问元素
+```
+
+### 分析 Priority Queue 源码
+```textmate
+    首先，Priority Queue是自JDK 1.5开始出现的，他 继承自 AbstractQueue 实现了 Queue 接口。
+    
+    根据 javadoc 的描述 ， Priority Queue 是基于优先级堆的无限优先级队列。内部元素的顺序需要根据对应使用的构造函数来决定。
+Priority Queue不允许空元素。 依赖自然顺序的优先级队列也不允许插入不可比较的对象（这样做可能会导致ClassCastException）。
+
+【构造函数】Priority Queue 有七种构造函数，分别围绕着内部的两个属性:
+    > private final Comparator<? super E> comparator;
+    > private static final int DEFAULT_INITIAL_CAPACITY = 11;
+    来进行初始化操作。
+也可以通过传入 Collection ， PriorityQueue，SortedSet 来进行构造。
+
+【初始容量】为 11，最大容量 private static final int MAX_ARRAY_SIZE = Integer.MAX_VALUE - 8;
+扩容规则参考 grow(int minCapacity);  // Double size if small; else grow by 50%
+如果现存容量小于64，则本次扩容 oldCapacity + oldCapacity + 2；
+如果现存容量小于64，则本次扩容 oldCapacity + (oldCapacity >> 2)；
+
+【方法暴露】
+因为继承自 Collection,  拥有 contains(),comparator() 等方法
+因为继承自 AbstractQueue, 拥有 clear(), addAll()
+因为实现 Queue, 拥有 add(),offer(),remove(),poll(),element(),peek()
+
+```
+
